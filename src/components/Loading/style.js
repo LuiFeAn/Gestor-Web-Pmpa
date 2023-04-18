@@ -10,7 +10,7 @@ export const Container = styled.div`
     /* filter: sepia(500%) hue-rotate(140deg) saturate(850%); */
 
     img{
-        width: 250px;
+        width: 200px;
     }
 
 `;

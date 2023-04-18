@@ -15,7 +15,7 @@ export const Container = styled.section`
         padding-left: 10px;
     }
 
-    .search-container{
+    form{
 
         margin-top:50px;
 

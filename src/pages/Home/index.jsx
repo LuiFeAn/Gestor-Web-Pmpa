@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, ContainerUsers, SessionUserContainer } from "./style";
+import { Container, SessionUserContainer } from "./style";
 import { useContext } from "react";
 import { sessionContext } from "../../contexts/Session";
 import Input from "../../components/input";
@@ -12,8 +12,8 @@ import Button from '.././../components/Button';
 import isvalidCpf from '../../utils/validCpf';
 import validarRG from "../../utils/validRg";
 import Select from "../../components/Select";
-
-import searchIcon from '../../assets/images/searchIcon.png';
+import { Fragment } from "react";
+import Form from "../../components/Form";
 
 export default function Home(){
 
@@ -67,9 +67,11 @@ export default function Home(){
 
         setUsers([]);
 
+        const newSearch = searchType === 'nome' ? search.replace(/\s+/g, "+") : search;
+
         const model = ['cpf','rg','nome'].includes(searchType) ? 'pessoa' : 'unidade';
 
-        const result = gestorWebAPI.get(`/searchpersonglobal?limit=300&page=${page.toString()}&types=${searchType}&search=${search.toLowerCase()}&model=${model}&myPermitions[]=8&myPermitions[]=16&myPermitions[]=17&idunidade=8`,{
+        const result = gestorWebAPI.get(`/searchpersonglobal?limit=300&page=${page.toString()}&types=${searchType}&search=${newSearch}&model=${model}&myPermitions[]=8&myPermitions[]=16&myPermitions[]=17&idunidade=8`,{
             headers:{
                 'Authorization':`Bearer ${session.token}`
             }
@@ -99,8 +101,6 @@ export default function Home(){
 
                 });
 
-                console.log(users)
-
                 setUsers(users);
 
                 setNoHasResult(false);
@@ -125,7 +125,7 @@ export default function Home(){
 
     function handleSelect(event){
 
-        setSearch(event.target.value);
+        setSearch(event.target.value.toLowerCase());
 
         setSelectedSession(event.target.value);
 
@@ -153,13 +153,13 @@ export default function Home(){
 
             </SessionUserContainer>
             
-            <div className="search-container">
+            <Form execute={makeSearch}>
 
                 <Input placeholder="PESQUISE POR NOME, CPF, RG, SESSÃO" value={search} onChange={handleSearch} />
 
-                <Button colorVerification onClick={makeSearch}>Pesquisar</Button>
+                <Button colorVerification>Pesquisar</Button>
 
-            </div>
+            </Form>
 
 
             <br/>
@@ -172,7 +172,7 @@ export default function Home(){
                         <option>SESSÕES</option>
 
                         { sessions.map( session => (
-                            <option>{session}</option>
+                            <option key={Math.random()}>{session}</option>
                         ))}
 
                 </Select>
@@ -181,13 +181,13 @@ export default function Home(){
 
             <br/> <br/>
 
-            { search.length == 0 && (
+            {/* { search.length == 0 && (
                <>
 
                     <img src={searchIcon}/>
 
                </>
-            )}
+            )} */}
 
             { users.length > 0 && (
                  <p style={{fontWeight:'bold'}}>{users.length} RESULTADOS REFERENTES</p>
@@ -207,7 +207,11 @@ export default function Home(){
             )}
 
             { users.length > 0 && users.map( user => (
-                    <UserCard user={user}/>
+                    <Fragment key={Math.random()}>
+
+                        <UserCard user={user}/>
+
+                    </Fragment>
                 ))}
         </Container>
     )
