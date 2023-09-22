@@ -107,7 +107,7 @@ export default function Login(){
         return (
             <LoginGeralContainer>
     
-                <img src={loginImage}/>
+                {/* <img src={loginImage}/> */}
     
                 <LoginContainerInput>
     

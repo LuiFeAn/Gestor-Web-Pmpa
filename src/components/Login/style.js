@@ -27,7 +27,7 @@ export const LoginGeralContainer = styled.section`
 export const LoginContainerInput = styled.div`
 
     display: flex;
-    height: 100vh;
+    height: 70vh;
     width: 100%;
     align-items: center;
     flex-direction: column;
@@ -50,6 +50,7 @@ export const Container = styled.form`
     input {
         width: 400px;
         margin-top:20px;
+        border: 2px solid black;
         font-weight: bold;
     }
 
